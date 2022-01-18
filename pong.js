@@ -30,13 +30,21 @@ function dibujarTodo() {
 	hacerCuadrado(0,0, canvas.width,canvas.height, 'black');
 
 	// la bola
-	hacerCuadrado(bolaX,200, 10,10, 'orange');
+	hacerCirculo(bolaX,200, 10, 'white');
 
-	// raqueta izuierda
+	// raqueta izquierda
 	hacerCuadrado(10,100, 10,100, 'white');
 }
 
 function hacerCuadrado(x, y, ancho, alto, color) {
 	ctx.fillStyle = color;
 	ctx.fillRect(x,y, ancho,alto);
+}
+
+function hacerCirculo(x, y, radio, color) {
+	ctx.fillStyle = color;
+	ctx.beginPath();
+	ctx.arc(x,y, radio, 0,Math.PI*2, true);
+	ctx.fill();
+	ctx.closePath();
 }
