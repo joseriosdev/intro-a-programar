@@ -7,6 +7,7 @@ var velocidadBolaX = 10;
 var velocidadBolaY = 5;
 
 var raqueta1Y = 250;
+var raqueta2Y = 250;
 const ANCHO_RAQUETA = 10;
 const ALTURA_RAQUETA = 100;
 
@@ -31,10 +32,18 @@ function moverTodo() {
 	bolaY += velocidadBolaY;
 
 	if (bolaX < 0) {
-		velocidadBolaX = -velocidadBolaX;
+		if (bolaY > raqueta1Y && bolaY < raqueta1Y+ALTURA_RAQUETA) {
+			velocidadBolaX = -velocidadBolaX;
+		} else {
+			resetearBola();
+		}
 	}
 	if (bolaX > canvas.width) {
-		velocidadBolaX = -velocidadBolaX;
+		if (bolaY > raqueta2Y && bolaY < raqueta2Y+ALTURA_RAQUETA) {
+			velocidadBolaX = -velocidadBolaX;
+		} else {
+			resetearBola();
+		}
 	}
 	if (bolaY < 0) {
 		velocidadBolaY = -velocidadBolaY;
@@ -51,8 +60,9 @@ function dibujarTodo() {
 	// la bola
 	hacerCirculo(bolaX,bolaY, 10, 'white');
 
-	// raqueta izquierda
-	hacerCuadrado(10,raqueta1Y, ANCHO_RAQUETA,ALTURA_RAQUETA, 'white');
+	// raqueta izquierda y derecha
+	hacerCuadrado(0,raqueta1Y, ANCHO_RAQUETA,ALTURA_RAQUETA, 'white');
+	hacerCuadrado(canvas.width-ANCHO_RAQUETA,raqueta2Y, ANCHO_RAQUETA,ALTURA_RAQUETA, 'white');
 }
 
 function hacerCuadrado(x, y, ancho, alto, color) {
@@ -78,4 +88,10 @@ function calcularPosicionDelMouse(evt) {
 		x: mouseX,
 		y: mouseY
 	};
+}
+
+function resetearBola() {
+	velocidadBolaX = -velocidadBolaX;
+	bolaX = canvas.width/2;
+	bolaY = canvas.height/2;
 }
