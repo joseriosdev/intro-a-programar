@@ -10,6 +10,11 @@ var raqueta1Y = 250;
 var raqueta2Y = 250;
 const ANCHO_RAQUETA = 10;
 const ALTURA_RAQUETA = 100;
+var velocidadRaqueta2 = 6;
+var raquetaOffset = 30;
+
+var puntajeJugador1 = 0;
+var puntajeJugador2 = 0;
 
 window.onload = function() {
 	canvas = document.getElementById('videojuego-pong');
@@ -28,6 +33,8 @@ window.onload = function() {
 }
 
 function moverTodo() {
+	movimientoComputadora();
+
 	bolaX += velocidadBolaX;
 	bolaY += velocidadBolaY;
 
@@ -36,6 +43,7 @@ function moverTodo() {
 			velocidadBolaX = -velocidadBolaX;
 		} else {
 			resetearBola();
+			puntajeJugador2++;
 		}
 	}
 	if (bolaX > canvas.width) {
@@ -43,6 +51,7 @@ function moverTodo() {
 			velocidadBolaX = -velocidadBolaX;
 		} else {
 			resetearBola();
+			puntajeJugador1++;
 		}
 	}
 	if (bolaY < 0) {
@@ -63,6 +72,10 @@ function dibujarTodo() {
 	// raqueta izquierda y derecha
 	hacerCuadrado(0,raqueta1Y, ANCHO_RAQUETA,ALTURA_RAQUETA, 'white');
 	hacerCuadrado(canvas.width-ANCHO_RAQUETA,raqueta2Y, ANCHO_RAQUETA,ALTURA_RAQUETA, 'white');
+
+	// puntajes
+	ctx.fillText(puntajeJugador1, 100, 100);
+	ctx.fillText(puntajeJugador2, canvas.width-100, 100);
 }
 
 function hacerCuadrado(x, y, ancho, alto, color) {
@@ -94,4 +107,14 @@ function resetearBola() {
 	velocidadBolaX = -velocidadBolaX;
 	bolaX = canvas.width/2;
 	bolaY = canvas.height/2;
+}
+
+function movimientoComputadora() {
+	var centroRaqueta = raqueta2Y + (ALTURA_RAQUETA/2);
+
+	if (centroRaqueta < bolaY-raquetaOffset) {
+		raqueta2Y += velocidadRaqueta2;
+	} else if (centroRaqueta > bolaY+raquetaOffset) {
+		raqueta2Y -= velocidadRaqueta2;
+	}
 }
