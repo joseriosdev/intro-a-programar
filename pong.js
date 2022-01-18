@@ -1,6 +1,7 @@
 var canvas;
 var ctx;
 var bolaX = 50;
+var velocidadBolaX = 10;
 
 window.onload = function() {
 	canvas = document.getElementById('videojuego-pong');
@@ -14,14 +15,28 @@ window.onload = function() {
 }
 
 function moverTodo() {
-	bolaX += 20;
+	bolaX += velocidadBolaX;
+
+	if (bolaX < 0) {
+		velocidadBolaX = -velocidadBolaX;
+	}
+	if (bolaX > canvas.width) {
+		velocidadBolaX = -velocidadBolaX;
+	}
 }
 
 function dibujarTodo() {
-	ctx.fillStyle = 'black';
-	ctx.fillRect(0,0, canvas.width,canvas.height);
-	ctx.fillStyle = 'orange';
-	ctx.fillRect(bolaX,200, 10,10);
-	ctx.fillStyle = 'white';
-	ctx.fillRect(10,100, 10,100);
+	// Cuadrado negro del fondo
+	hacerCuadrado(0,0, canvas.width,canvas.height, 'black');
+
+	// la bola
+	hacerCuadrado(bolaX,200, 10,10, 'orange');
+
+	// raqueta izuierda
+	hacerCuadrado(10,100, 10,100, 'white');
+}
+
+function hacerCuadrado(x, y, ancho, alto, color) {
+	ctx.fillStyle = color;
+	ctx.fillRect(x,y, ancho,alto);
 }
