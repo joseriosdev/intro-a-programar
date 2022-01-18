@@ -1,3 +1,9 @@
+```bash
+* Aqui verás todo el juego hecho, hay que aprender a usar GIT para clonar el repo.
+* Pero lo puedes usar directamente desde aquí, en la parte superior izquierda se pueden ver las ramas.
+* Navega por medio de ellas para tener acceso al paso a paso.
+```
+
 # Introducción al mundo de la programación
 ### Aprendiendo sobre el desarrollo de un software creando el juego de Pong
 
