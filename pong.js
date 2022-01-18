@@ -15,6 +15,8 @@ var raquetaOffset = 30;
 
 var puntajeJugador1 = 0;
 var puntajeJugador2 = 0;
+const PUNTAJE_GANADOR = 3;
+var mostrarPantallaFinal = false;
 
 window.onload = function() {
 	canvas = document.getElementById('videojuego-pong');
@@ -33,6 +35,9 @@ window.onload = function() {
 }
 
 function moverTodo() {
+	if (mostrarPantallaFinal) {
+		return;
+	}
 	movimientoComputadora();
 
 	bolaX += velocidadBolaX;
@@ -41,17 +46,19 @@ function moverTodo() {
 	if (bolaX < 0) {
 		if (bolaY > raqueta1Y && bolaY < raqueta1Y+ALTURA_RAQUETA) {
 			velocidadBolaX = -velocidadBolaX;
+			velocidadBolaY = (bolaY - (raqueta1Y+ALTURA_RAQUETA/2)) * 0.3;
 		} else {
+			puntajeJugador2++; // tiene que ser antes del reset
 			resetearBola();
-			puntajeJugador2++;
 		}
 	}
 	if (bolaX > canvas.width) {
 		if (bolaY > raqueta2Y && bolaY < raqueta2Y+ALTURA_RAQUETA) {
 			velocidadBolaX = -velocidadBolaX;
+			velocidadBolaY = (bolaY - (raqueta2Y+ALTURA_RAQUETA/2)) * 0.3;
 		} else {
+			puntajeJugador1++; // tiene que ser antes del reset
 			resetearBola();
-			puntajeJugador1++;
 		}
 	}
 	if (bolaY < 0) {
@@ -65,6 +72,12 @@ function moverTodo() {
 function dibujarTodo() {
 	// Cuadrado negro del fondo
 	hacerCuadrado(0,0, canvas.width,canvas.height, 'black');
+
+	if (mostrarPantallaFinal) {
+		ctx.fillStyle = 'white';
+		ctx.fillText('Click Para Continuar', 100,100);
+		return;
+	}
 
 	// la bola
 	hacerCirculo(bolaX,bolaY, 10, 'white');
@@ -104,6 +117,11 @@ function calcularPosicionDelMouse(evt) {
 }
 
 function resetearBola() {
+	if (puntajeJugador1 >= PUNTAJE_GANADOR || puntajeJugador2 >= PUNTAJE_GANADOR) {
+		puntajeJugador1 = 0;
+		puntajeJugador2 = 0;
+		mostrarPantallaFinal = true;
+	}
 	velocidadBolaX = -velocidadBolaX;
 	bolaX = canvas.width/2;
 	bolaY = canvas.height/2;
